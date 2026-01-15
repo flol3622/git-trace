@@ -1,26 +1,15 @@
-#import "src/lib.typ": git-branch, git-head-hash, git-last-commit, git-log
+#import "src/lib.typ": git-branch, git-head-hash, git-last-commit
 
 = Git Metadata Showcase
 
-This file demonstrates the `git-info` helpers. It reads branch and hash from `.git` and optionally uses `git-meta.toml` for message/date.
+This file demonstrates the `git-info` helpers. It reads branch, hash, message, and date from `.git` reflog.
 
-#let branch = git-branch()
-#let hash = git-head-hash()
-#let last = git-last-commit(meta_path: "git-meta.toml")
+#let git_dir = "../.git"
+#let branch = git-branch(git_dir: git_dir)
+#let hash = git-head-hash(git_dir: git_dir)
+#let last = git-last-commit(git_dir: git_dir)
 
 * Branch: #branch
 * HEAD hash: #hash
 * Last message: #last.message
 * Last date: #last.date
-
-== Commit list
-
-If you created `git-log.txt` using `git log -5 --date=iso-strict --format='%H|%cI|%s' > git-log.txt`, you can parse it:
-
-#let commits = git-log("git-log.txt")
-
-#table(
-  columns: 3,
-  [Hash], [Date], [Message],
-  ..commits.map(c => (c.hash, c.date, c.message)).flatten(),
-)
