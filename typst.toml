@@ -1,0 +1,7 @@
+[package]
+name = "git-info"
+version = "0.1.0"
+entrypoint = "src/lib.typ"
+authors = ["Your Name"]
+license = "MIT"
+description = "Read Git metadata (branch, hash, message, date) from .git or generated meta files."
