@@ -11,6 +11,23 @@
   if s.len() == 1 { "0" + s } else { s }
 }
 
+#let _clean-reflog-message(msg) = {
+  if msg == none { none } else {
+    let s = msg
+    if s.starts-with("commit (") {
+      let parts = s.split("): ")
+      _at(parts, parts.len() - 1, default: s)
+    } else if s.starts-with("commit: ") {
+      s.replace("commit: ", "")
+    } else if s.starts-with("commit ") {
+      let parts = s.split(": ")
+      _at(parts, parts.len() - 1, default: s)
+    } else {
+      s
+    }
+  }
+}
+
 #let _git-head(git_dir: ".git") = read(git_dir + "/HEAD").trim()
 
 #let _git-reflog-last(git_dir: ".git") = {
@@ -43,7 +60,7 @@
     let branch = git-branch(git_dir: git_dir)
     let chunks = line.split("\t")
     let left = _at(chunks, 0, default: "")
-    let message = _at(chunks, 1, default: none)
+    let message = _clean-reflog-message(_at(chunks, 1, default: none))
     let parts = left.split(" ")
     let hash = _at(parts, 1, default: none)
     let ts = _at(parts, parts.len() - 2, default: none)
