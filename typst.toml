@@ -1,7 +1,7 @@
 [package]
-name = "git-info"
+name = "git-trace"
 version = "0.1.0"
 entrypoint = "src/lib.typ"
-authors = ["Your Name"]
+authors = ["Philippe Soubrier <philippe.soubrier@gmail.com>"]
 license = "MIT"
-description = "Read Git metadata (branch, hash, message, date) from .git or generated meta files."
+description = "Surface Git reflog metadata in documents."
